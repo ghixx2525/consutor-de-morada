@@ -1,0 +1,40 @@
+<html lang="pt">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Verificar Cobertura</title>
+</head>
+
+<body>
+  <h2>Consulta de Cobertura</h2>
+  <form id="coverageForm">
+    <label for="morada">Morada:</label><br>
+    <input type="text" id="morada" name="Morada" required><br><br>
+
+    <label for="telemovel">Nº Telemóvel:</label><br>
+    <input type="tel" id="telemovel" name="Telemovel" required pattern="[0-9]{9}"><br><br>
+
+    <button type="submit">Verificar Cobertura</button>
+  </form>
+
+  <p id="result"></p>
+
+  <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbzEucPdF5F_J-LdQqsZ8M65MljXEO9dFExo50EIgjo6yvglGsl3sEIpLqP6elfmpw-4/exec";
+    document.getElementById('coverageForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      const address = formData.get('Morada');
+      const hasCoverage = address.toLowerCase().includes('seixal') ?
+        "✅ Temos cobertura na sua zona!" :
+        "❌ Sem cobertura no momento.";
+      document.getElementById('result').innerText = hasCoverage;
+      fetch(scriptURL, {
+        method: 'POST',
+        body: formData
+      });
+    });
+  </script>
+</body>
+
+</html>
